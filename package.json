@@ -3,34 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
+    "@types/qs": "^6.9.7",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "jira-dev-tool": "^1.7.61",
+    "lint-staged": "^12.1.2",
+    "prettier": "2.5.0",
     "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1",
-    "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
-    "@types/qs": "^6.9.7",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.1.2",
-    "prettier": "2.5.0"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "json-server": "json-server ./jsonmock/db.json --watch --port 3001 --middlewares ./jsonmock/middleware.js"
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -51,9 +51,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    
-  },
+  "devDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -62,5 +60,8 @@
   "lint-staged": {
     "*.{js,css,md,ts,tsx}": "prettier --write",
     "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
