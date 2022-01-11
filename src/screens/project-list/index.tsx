@@ -11,17 +11,18 @@ import { useAsync } from "utils/use-async";
 import { useProjects } from "../../utils/projects";
 import { useUsers } from "utils/user";
 import { useDocumentTitle } from "utils";
+import { useUrlQueryParam } from "utils/url";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
-  const [param, setParam] = useState({
+  const [, setParam] = useState({
     name: "",
     personId: "",
   });
 
   useDocumentTitle("项目列表", false);
-
+  const [param] = useUrlQueryParam(["name", "personId"]);
   const debouncedParam = useDebounce(param, 200);
   const { isLoading, error, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
