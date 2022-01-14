@@ -4,7 +4,7 @@ import { User } from "screens/project-list/search-panel";
 import { http } from "utils/http";
 import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
-import { FullPageErrorFallBack, FullPageLoading } from "components/lib";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 
 interface AuthForm {
   username: string;
@@ -26,7 +26,7 @@ const AuthContext = React.createContext<
       user: User | null;
       register: (auth: AuthForm) => Promise<void>;
       login: (auth: AuthForm) => Promise<void>;
-      logout: (auth: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -56,7 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   if (isError) {
-    return <FullPageErrorFallBack error={error} />;
+    return <FullPageErrorFallback error={error} />;
   }
 
   return (

@@ -64,3 +64,15 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
 };
 
 export const resetRoute = () => (window.location.href = window.location.origin);
+
+//返回组件挂载状态
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+  return mountedRef;
+};
