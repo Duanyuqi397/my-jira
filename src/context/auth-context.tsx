@@ -6,7 +6,7 @@ import { useMount } from "utils";
 import { useAsync } from "utils/use-async";
 import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 
-interface AuthForm {
+export interface AuthForm {
   username: string;
   password: string;
 }
