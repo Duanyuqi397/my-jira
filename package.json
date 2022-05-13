@@ -17,8 +17,6 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-helmet": "^6.1.5",
     "antd": "4.9.4",
-    "craco": "^0.0.3",
-    "craco-less": "^2.0.0",
     "dayjs": "^1.10.7",
     "eslint-config-prettier": "^8.3.0",
     "history": "^5.2.0",
@@ -38,10 +36,11 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
-    "eject": "react-scripts eject"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "json-server": "json-server __json_server_mock__/db.json --watch --port 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -63,7 +62,8 @@
     ]
   },
   "devDependencies": {
-    "@welldone-software/why-did-you-render": "^6.2.3"
+    "@welldone-software/why-did-you-render": "^6.2.3",
+    "json-server": "^0.17.0"
   },
   "husky": {
     "hooks": {
