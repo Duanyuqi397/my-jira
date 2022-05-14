@@ -21,7 +21,7 @@
     "eslint-config-prettier": "^8.3.0",
     "history": "^5.2.0",
     "husky": "^7.0.4",
-    "jira-dev-tool": "1.6.59",
+    "jira-dev-tool": "^1.7.61",
     "lint-staged": "^12.1.2",
     "prettier": "2.5.0",
     "qs": "^6.10.1",

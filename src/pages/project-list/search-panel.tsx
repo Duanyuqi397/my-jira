@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 export interface User {
     id: string;
@@ -6,6 +6,7 @@ export interface User {
     email: string;
     title: string;
     organization: string;
+    token: string;
 }
 
 interface SearchPanelProps {
