@@ -42,9 +42,10 @@ export const useAsync = <D> (initialState?: State<D>) => {
         return promise.then(data => {
             setData(data);
             return data;
+        //catch会消化异常，如果不主动抛出，外界捕获不到
         }).catch(error => {
             setError(error);
-            return error;
+            return Promise.reject(error);
         })
     }
 
