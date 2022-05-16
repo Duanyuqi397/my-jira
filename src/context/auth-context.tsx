@@ -3,6 +3,8 @@ import * as auth from "auth-provider";
 import { User } from "pages/project-list/search-panel";
 import { http } from "utils/http";
 import { useMount } from "utils";
+import { useAsync } from "utils/use-async";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
 
 interface AuthForm {
     username: string;
@@ -31,15 +33,25 @@ const AuthContext = React.createContext<{
 AuthContext.displayName = 'AuthContext';
 
 export const AuthProvider = ({children}:{children:ReactNode}) => {
-    const [user,setUser] = useState<User|null>(null);
+    const { data: user,isLoading,isIdle,isError,error,run,setData: setUser } = useAsync<User|null>();
+
     const login = (form: AuthForm) => auth.login(form).then(setUser);
     const register = (form: AuthForm) => auth.register(form).then(setUser);
     const logout = () => auth.logout().then(() => setUser(null));
 
     useMount(() => {
         //页面加载时将user设置为带token请求返回后的user 
-        initUser().then(setUser)
+        run(initUser());
     })
+
+    //me接口请求失败时loading
+    if(isIdle || isLoading){
+        return <FullPageLoading />
+    }
+
+    if(isError){
+        return <FullPageErrorFallback error={error} />
+    }
 
     return <AuthContext.Provider children={children} value={{user,login,register,logout}} />
 }
