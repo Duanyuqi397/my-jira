@@ -1,12 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
-import * as qs from "qs";
+// import * as qs from "qs";
 import { cleanObject, useDebounce, useMount } from "utils";
 import { useHttp } from "utils/http";
 import styled from "@emotion/styled";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectList = () => {
     const [users,setUsers] = useState([]); 
@@ -21,6 +19,7 @@ export const ProjectList = () => {
 
     useEffect(() => {
         client('projects',{data: cleanObject(debouncedParam)}).then(setList)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[debouncedParam])
 
     useMount(() => {

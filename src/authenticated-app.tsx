@@ -11,18 +11,18 @@ export const AuthenticatedApp = () => {
         <Header between={true}>
             <HeaderLeft gap={true}>
                 <SoftwareLogo style={{width:'18rem',color:'rgb(38,132,255)'}} />
-                <h2>项目</h2>
-                <h2>用户</h2>
+                <h2 style={{cursor:'pointer'}}>项目</h2>
+                <h2 style={{cursor:'pointer'}}>用户</h2>
             </HeaderLeft>
             <HeaderRight>
                 <Dropdown overlay={<Menu>
                     <Menu.Item key={'logout'}>
-                        <a onClick={logout}>登出</a>
+                        <Button type="link" onClick={logout}>登出</Button>
                     </Menu.Item>
                 </Menu>}>       
-                    <a onClick={e => e.preventDefault()}>
+                    <Button type="link" onClick={e => e.preventDefault()}>
                         Hi,{user?.name}
-                    </a>    
+                    </Button>    
                 </Dropdown>
             </HeaderRight>
         </Header> 

@@ -2,13 +2,14 @@ import { useEffect,useState } from "react";
 
 export const isFalse = (value: any):boolean => value === 0 ? false : !value;
 
-export const cleanObject = (object: Object) => {
+const isVoid = (value: unknown) => value === undefined || value === null || value === '' 
+
+//object的类型不能直接用object,因为object类型还可能是函数或者数组，所以显式写{[key: string]: unknown}，表示键值对
+export const cleanObject = (object: {[key: string]: unknown}) => {
     const res = {...object};
     Object.keys(res).forEach(key => {
-        //@ts-ignore
         const value = res[key];
-        if(isFalse(value)){
-            //@ts-ignore
+        if(isVoid(value)){
             delete res[key];
         }
     })
@@ -17,7 +18,9 @@ export const cleanObject = (object: Object) => {
 
 export const useMount = (cb: () => void) => {
     useEffect(() => {
+        //依赖项里面加上callback会造成无限循环
         cb();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 }
 
