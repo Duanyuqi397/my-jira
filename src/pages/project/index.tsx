@@ -9,10 +9,10 @@ export const Project = () => {
         <Link to={"display-board"}>看板</Link>
         <Link to={"epic"}>任务组</Link>
         <Routes>
-            <Route path="/display-board" element={<DisplayBoard />} />
-            <Route path="/epic" element={<Epic />} />
-        </Routes>
-        {/* 匹配不到路由，就跳转到项目看板 */}
-        <Navigate to={window.location.pathname + '/display-board'} />
+            <Route path="display-board" element={<DisplayBoard />} />
+            <Route path="epic" element={<Epic />} />
+            {/* 匹配不到路由，就跳转到项目看板 */}
+            <Route index element={<DisplayBoard />} />
+        </Routes>       
     </div>
 }

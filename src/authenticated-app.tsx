@@ -16,11 +16,10 @@ export const AuthenticatedApp = () => {
       <Main>
         <Router>
             <Routes>
-                <Route path="/projects" element={<ProjectList />} />
-                <Route path="/projects/:projectId/*" element={<Project />} />
-                {/* <Navigate to={'/projects'}/> */}
+                <Route path="projects" element={<ProjectList />} />
+                <Route path="projects/:projectId/*" element={<Project />} />
+                <Route index element={<ProjectList />}/>
             </Routes>
-            <Navigate to={'/projects'}/>
         </Router>
       </Main>
     </Container>
