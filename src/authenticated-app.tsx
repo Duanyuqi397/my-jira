@@ -7,6 +7,7 @@ import { Row } from "components/lib";
 import { Navigate,Route,Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Project } from "pages/project";
+import { resetRoute } from "utils";
 
 export const AuthenticatedApp = () => {
   return (
@@ -15,9 +16,11 @@ export const AuthenticatedApp = () => {
       <Main>
         <Router>
             <Routes>
-                <Route path="/project" element={<ProjectList />} />
-                <Route path="/project/:projectId/*" element={<Project />} />
+                <Route path="/projects" element={<ProjectList />} />
+                <Route path="/projects/:projectId/*" element={<Project />} />
+                {/* <Navigate to={'/projects'}/> */}
             </Routes>
+            <Navigate to={'/projects'}/>
         </Router>
       </Main>
     </Container>
@@ -29,7 +32,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftwareLogo style={{ width: "18rem", color: "rgb(38,132,255)" }} />
+        <Button type="link" onClick={resetRoute}>
+          <SoftwareLogo style={{ width: "18rem", color: "rgb(38,132,255)" }} />
+        </Button>
         <h2 style={{ cursor: "pointer" }}>项目</h2>
         <h2 style={{ cursor: "pointer" }}>用户</h2>
       </HeaderLeft>
