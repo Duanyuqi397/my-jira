@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect,useRef,useState } from "react";
 
 export const isFalse = (value: any):boolean => value === 0 ? false : !value;
 
@@ -37,7 +37,7 @@ export const useDebounce = (value: any,delay?: number) => {
 }
 
 export const useDocumentTitle = (title: string,keepOnUnmount = true) => {
-    const oldTitle = document.title;
+    const oldTitle = useRef(document.title).current;
     useEffect(() => {
         document.title = title;
     },[title]);
@@ -47,5 +47,5 @@ export const useDocumentTitle = (title: string,keepOnUnmount = true) => {
                 document.title = oldTitle;
             }
         }
-    },[])
+    },[keepOnUnmount,oldTitle])
 }
