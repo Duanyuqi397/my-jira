@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<D> {
     data: D | null;
@@ -12,11 +13,18 @@ const DefaultInitialState:State<null> = {
     stat: 'idle'
 }
 
-export const useAsync = <D> (initialState?: State<D>) => {
+const defaultConfig = {
+    throwOnError: false,
+  };
+
+export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defaultConfig) => {
+    const config = { ...defaultConfig, ...initialConfig };
     const [state,setState] = useState<State<D>>({
         ...DefaultInitialState,
         ...initialState
     })
+
+    const mountedRef = useMountedRef();
 
     // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
     const [retry, setRetry] = useState(() => () => {});
@@ -41,7 +49,7 @@ export const useAsync = <D> (initialState?: State<D>) => {
         if(!promise || !promise.then){
             throw new Error('请传入Promise类型数据')
         }
-        
+
         setRetry(() => () => {
             if (runConfig?.retry) {
               run(runConfig?.retry(), runConfig);
@@ -50,7 +58,7 @@ export const useAsync = <D> (initialState?: State<D>) => {
         setState({...state,stat:'loading'});
 
         return promise.then(data => {
-            setData(data);
+            if(mountedRef.current) setData(data);
             return data;
         //catch会消化异常，如果不主动抛出，外界捕获不到
         }).catch(error => {
