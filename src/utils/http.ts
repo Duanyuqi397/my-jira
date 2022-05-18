@@ -1,6 +1,7 @@
 import qs from "qs";
 import * as auth from "auth-provider";
 import { useAuth } from "context/auth-context";
+import { useCallback } from "react";
 
 //RequestInit不具有data和token属性，所以定义一个接口来扩展属性
 interface Config extends RequestInit {
@@ -55,5 +56,7 @@ export const http = async (endpoint: string,{data,token,headers,...customConfig}
 export const useHttp = () => {
     //拿到user并把token传入
     const { user } = useAuth();
-    return (...[endpoint,config]: Parameters<typeof http>) => http(endpoint,{...config,token:user?.token});
+    return useCallback(
+        (...[endpoint,config]: Parameters<typeof http>) => http(endpoint,{...config,token:user?.token}),
+    [user?.token]);
 }

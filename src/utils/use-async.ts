@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -29,23 +29,23 @@ export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defa
     // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
     const [retry, setRetry] = useState(() => () => {});
 
-    const setData = (data:D) => {
+    const setData = useCallback((data:D) => {
         setState({
             error: null,
             stat: 'success',
             data
         })
-    }
+    },[])
 
-    const setError = (error: Error) => {
+    const setError = useCallback((error: Error) => {
         setState({
             error,
             data: null,
             stat: 'error'
         })
-    }
+    },[])
 
-    const run = (promise: Promise<D>,runConfig?: { retry: () => Promise<D> }) => {
+    const run = useCallback((promise: Promise<D>,runConfig?: { retry: () => Promise<D> }) => {
         if(!promise || !promise.then){
             throw new Error('请传入Promise类型数据')
         }
@@ -55,7 +55,8 @@ export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defa
               run(runConfig?.retry(), runConfig);
             }
         });
-        setState({...state,stat:'loading'});
+        
+        setState(prevState => ({...prevState,stat:'loading'}));
 
         return promise.then(data => {
             if(mountedRef.current) setData(data);
@@ -63,9 +64,10 @@ export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defa
         //catch会消化异常，如果不主动抛出，外界捕获不到
         }).catch(error => {
             setError(error);
-            return Promise.reject(error);
+            if(config.throwOnError) return Promise.reject(error);
+            return error;
         })
-    }
+    },[config.throwOnError,mountedRef,setData,setError])
 
     return {
         isIdle: state.stat === 'idle',
