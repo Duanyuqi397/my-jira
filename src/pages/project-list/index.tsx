@@ -8,11 +8,13 @@ import { Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useUrlQueryParam } from "utils/url";
+import { useProjectsSearchParams } from "./util";
 
 export const ProjectList = () => {
     useDocumentTitle('项目列表',false);
 
-    const [param,setParam] = useUrlQueryParam(['name','personId']);
+    // const [param,setParam] = useUrlQueryParam(['name','personId']);
+    const [param,setParam] = useProjectsSearchParams();
     const {isLoading,error,data: list } = useProjects(useDebounce(param,200));
     const {data: users} = useUsers();
 
@@ -26,7 +28,7 @@ export const ProjectList = () => {
     )
 }
 
-ProjectList.whyDidYouRender = true;
+// ProjectList.whyDidYouRender = true;
 
 const Container = styled.div`
     padding: 3.2rem;
