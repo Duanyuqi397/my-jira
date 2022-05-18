@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React from "react";
 import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 // import * as qs from "qs";
@@ -7,7 +7,6 @@ import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
-import { useUrlQueryParam } from "utils/url";
 import { useProjectsSearchParams } from "./util";
 
 export const ProjectList = () => {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Routes,Route,Navigate } from "react-router";
+import { Routes,Route } from "react-router";
 import { DisplayBoard } from "pages/display-board";
 import { Epic } from "pages/epic";
 

@@ -4,7 +4,7 @@ import { Button, Dropdown, Menu } from "antd";
 import styled from "@emotion/styled";
 import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg"; //用组件形式展示svg，可自己定义样式
 import { Row } from "components/lib";
-import { Navigate,Route,Routes } from "react-router";
+import { Route,Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Project } from "pages/project";
 import { resetRoute } from "utils";
