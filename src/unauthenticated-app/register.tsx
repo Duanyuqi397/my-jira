@@ -28,7 +28,7 @@ export const Register = ({onError}:{onError:(error:Error) => void}) => {
         <Input placeholder="密码" type="password" />
       </Form.Item>
       <Form.Item name='cpassword' rules={[{required: true,message:'请确认密码'}]}>
-        <Input placeholder="确认密码" type="cpassword" />
+        <Input placeholder="确认密码" type="password" />
       </Form.Item>
       <Form.Item>
           <LongButton htmlType="submit" type="primary">注册</LongButton>
