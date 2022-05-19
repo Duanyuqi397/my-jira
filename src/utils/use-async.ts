@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -17,33 +17,39 @@ const defaultConfig = {
     throwOnError: false,
   };
 
+const useSafeDispatch = <T>(dispatch:(...args:T[]) => void) => {
+    const mountedRef = useMountedRef();
+    return useCallback((...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),[mountedRef,dispatch])
+} 
+
+//用useReducer改造
 export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defaultConfig) => {
     const config = { ...defaultConfig, ...initialConfig };
-    const [state,setState] = useState<State<D>>({
+    const [state,dispatch] = useReducer((state: State<D>,action: Partial<State<D>>) => ({...state,...action}),{
         ...DefaultInitialState,
         ...initialState
     })
 
-    const mountedRef = useMountedRef();
+    const safeDispatch = useSafeDispatch(dispatch);
 
     // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
     const [retry, setRetry] = useState(() => () => {});
 
     const setData = useCallback((data:D) => {
-        setState({
+        safeDispatch({
             error: null,
             stat: 'success',
             data
         })
-    },[])
+    },[safeDispatch])
 
     const setError = useCallback((error: Error) => {
-        setState({
+        safeDispatch({
             error,
             data: null,
             stat: 'error'
         })
-    },[])
+    },[safeDispatch])
 
     const run = useCallback((promise: Promise<D>,runConfig?: { retry: () => Promise<D> }) => {
         if(!promise || !promise.then){
@@ -56,10 +62,10 @@ export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defa
             }
         });
         
-        setState(prevState => ({...prevState,stat:'loading'}));
+        safeDispatch({stat:'loading'});
 
         return promise.then(data => {
-            if(mountedRef.current) setData(data);
+            setData(data);
             return data;
         //catch会消化异常，如果不主动抛出，外界捕获不到
         }).catch(error => {
@@ -67,7 +73,7 @@ export const useAsync = <D> (initialState?: State<D>,initialConfig?: typeof defa
             if(config.throwOnError) return Promise.reject(error);
             return error;
         })
-    },[config.throwOnError,mountedRef,setData,setError])
+    },[config.throwOnError,setData,setError,safeDispatch])
 
     return {
         isIdle: state.stat === 'idle',
