@@ -4,8 +4,8 @@ import { NumberOrString } from "types"
 type SelectProps = React.ComponentProps<typeof Select>;
 
 interface IdSelectProps extends Omit<SelectProps, "value" | "onChange" | "options"> {
-    value: NumberOrString | undefined | null;
-    onChange: (value?: number) => void
+    value?: NumberOrString | undefined | null;
+    onChange?: (value?: number) => void
     defaultOptionName?: string;
     options?: { name: string,id: number }[];
 }

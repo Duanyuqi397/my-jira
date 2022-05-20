@@ -20,13 +20,13 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
     //TableProps<Project>包含了本来在这里的list
   users: User[];
-  refresh?: () => void;
 }
 
 export const List = ({ users, ...props }: ListProps) => {
-  const {open} = useProjectModal();
+  const {startEditing} = useProjectModal();
   const {mutate} = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin }).then(props.refresh);//柯里化
+  const pinProject = (id: number) => (pin: boolean) => mutate({ id, pin });//柯里化
+  const editProject = (id: number) => () => startEditing(id);
   return (
     <Table
       rowKey={"id"}
@@ -82,7 +82,10 @@ export const List = ({ users, ...props }: ListProps) => {
           render(value,project){
             return <Dropdown overlay={<Menu>
               <Menu.Item key='edit'>
-                <ButtonNoPadding type="link" onClick={open}>编辑</ButtonNoPadding>
+                <ButtonNoPadding type="link" onClick={editProject(project.id)}>编辑</ButtonNoPadding>
+              </Menu.Item>
+              <Menu.Item key='delete'>
+                <ButtonNoPadding type="link" >删除</ButtonNoPadding>
               </Menu.Item>
             </Menu>}>
               <ButtonNoPadding type="link">...</ButtonNoPadding>
