@@ -5,23 +5,26 @@ import { List } from "./list";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Button, Typography } from "antd";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useProjectsSearchParams } from "./util";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list.slice";
 
-export const ProjectList = (props:{ setProjectModalOpen: (isOpen: boolean) => void }) => {
+export const ProjectList = () => {
     useDocumentTitle('项目列表',false);
 
     const [param,setParam] = useProjectsSearchParams();
     const {isLoading,error,data: list,retry } = useProjects(useDebounce(param,200));
     const {data: users} = useUsers();
+    const dispatch = useDispatch();
 
     return (
         <Container>
             <Row between={true}>
                 <h1>项目列表</h1>
-                <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+                <ButtonNoPadding onClick={() => dispatch(projectListActions.openProjectModal())} type="link">创建项目</ButtonNoPadding>
             </Row>
             <SearchPanel users={users || []} param={param} setParam={setParam} />
             {error ? <Typography.Text type="danger">{error.message}</Typography.Text> : null}
@@ -29,7 +32,6 @@ export const ProjectList = (props:{ setProjectModalOpen: (isOpen: boolean) => vo
                 users={users || []} 
                 dataSource={list || []} 
                 refresh={retry}
-                setProjectModalOpen={props.setProjectModalOpen} 
                 />
         </Container>
     )

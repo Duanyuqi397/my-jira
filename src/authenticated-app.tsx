@@ -13,32 +13,32 @@ import { ProjectModal } from "pages/project-list/project-modal";
 import { ProjectPopOver } from "components/project-popover";
 
 export const AuthenticatedApp = () => {
-  const [projectModalOpen,setProjectModalOpen] = useState(false);
+  // const [projectModalOpen,setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen}/>
+      <PageHeader />
       <Main>
         <Router>
             <Routes>
-                <Route path="projects" element={<ProjectList setProjectModalOpen={setProjectModalOpen} />} />
+                <Route path="projects" element={<ProjectList />} />
                 <Route path="projects/:projectId/*" element={<Project />} />
-                <Route index element={<ProjectList setProjectModalOpen={setProjectModalOpen} />}/>
+                <Route index element={<ProjectList />}/>
             </Routes>
         </Router>
       </Main>
-      <ProjectModal projectModalOpen={projectModalOpen} onClose={() => setProjectModalOpen(false)} />
+      <ProjectModal />
     </Container>
   );
 };
 
-const PageHeader = (props:{ setProjectModalOpen: (isOpen: boolean) => void }) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type="link" onClick={resetRoute}>
           <SoftwareLogo style={{ width: "18rem", color: "rgb(38,132,255)" }} />
         </ButtonNoPadding>
-        <ProjectPopOver setProjectModalOpen={props.setProjectModalOpen} />
+        <ProjectPopOver />
         <span style={{ cursor: "pointer" }}>用户</span>
       </HeaderLeft>
       <HeaderRight>
