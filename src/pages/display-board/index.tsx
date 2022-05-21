@@ -4,6 +4,7 @@ import { useDisplayBoardsInProject, useProjectInUrl } from "pages/display-board/
 import { DisplayBoardColumn } from "pages/display-board/display-board-column";
 import styled from "@emotion/styled";
 import { useDisplayBoards } from "utils/displayBoard";
+import { SearchPanel } from "./searc-panel";
 
 export const DisplayBoard = () => {
   useDocumentTitle("看板列表");
@@ -13,6 +14,7 @@ export const DisplayBoard = () => {
   return (
     <div>
       <h1>{currentProject?.name}看板</h1>
+      <SearchPanel />
       <ColumnsContainer>
         {displayBoards?.map((displayBoard) => (
           <DisplayBoardColumn displayBoard={displayBoard} key={displayBoard.id} />
