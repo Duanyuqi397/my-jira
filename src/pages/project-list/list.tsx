@@ -1,5 +1,5 @@
 import React from "react";
-import { User } from "./search-panel";
+import { User } from "../../types/User";
 import { Dropdown, Menu, Table, TableProps } from "antd";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -7,15 +7,7 @@ import { Pin } from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 import { useProjectModal } from "./util";
-
-export interface Project {
-  id: number;
-  personId: number;
-  name: string;
-  pin: boolean;
-  organization: string;
-  created: number;
-}
+import { Project } from "../../types/Project";
 
 interface ListProps extends TableProps<Project> {
     //TableProps<Project>包含了本来在这里的list

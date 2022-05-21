@@ -1,4 +1,4 @@
-import { Project } from "pages/project-list/list";
+import { Project } from "types/Project";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useHttp } from "./http";
 import { useAsync } from "./use-async";
